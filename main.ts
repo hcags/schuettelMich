@@ -9,6 +9,14 @@ input.onButtonEvent(Button.A, input.buttonEventClick(), function () {
 })
 input.onButtonEvent(Button.AB, input.buttonEventClick(), function () {
     SaveGamer = true
+    basic.showNumber(Lifes)
+    basic.showLeds(`
+        # # # # #
+        # # # # #
+        # # # # #
+        # # # # #
+        # # # # #
+        `)
 })
 input.onButtonEvent(Button.B, input.buttonEventClick(), function () {
     if (!(SaveGamer)) {
@@ -19,8 +27,57 @@ input.onButtonEvent(Button.B, input.buttonEventClick(), function () {
         basic.showNumber(Gamer)
     }
 })
+input.onGesture(Gesture.Shake, function () {
+    radio.sendNumber(Gamer)
+})
+radio.onReceivedString(function (receivedString) {
+    if (receivedString == "gameStart") {
+        Play = true
+        basic.showLeds(`
+            # # # # #
+            # # # # #
+            # # # # #
+            # # # # #
+            # # # # #
+            `)
+        basic.showLeds(`
+            # # # # #
+            # # # # #
+            # # . # #
+            # # # # #
+            # # # # #
+            `)
+        basic.showLeds(`
+            # # # # #
+            # # . # #
+            # . . . #
+            # # . # #
+            # # # # #
+            `)
+        basic.showLeds(`
+            # # . # #
+            # . . . #
+            . . . . .
+            # . . . #
+            # # . # #
+            `)
+        basic.showLeds(`
+            # . . . #
+            . . . . .
+            . . . . .
+            . . . . .
+            # . . . #
+            `)
+        basic.showNumber(Lifes)
+    }
+})
+let Lifes = 0
 let Gamer = 0
+let Play = false
 let SaveGamer = false
+radio.setGroup(1)
 SaveGamer = false
+Play = false
 Gamer = 1
 basic.showNumber(Gamer)
+Lifes = 5
