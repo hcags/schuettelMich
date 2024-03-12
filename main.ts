@@ -28,7 +28,10 @@ input.onButtonEvent(Button.B, input.buttonEventClick(), function () {
     }
 })
 input.onGesture(Gesture.Shake, function () {
-    radio.sendNumber(Gamer)
+    if (Play) {
+        radio.sendNumber(Gamer)
+        basic.showNumber(Lifes)
+    }
 })
 radio.onReceivedString(function (receivedString) {
     if (receivedString == "gameStart") {
