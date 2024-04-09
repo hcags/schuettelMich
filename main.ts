@@ -1,3 +1,6 @@
+input.onPinTouchEvent(TouchPin.P1, input.buttonEventDown(), function () {
+    radio.sendString("gameStart")
+})
 input.onButtonEvent(Button.A, input.buttonEventClick(), function () {
     if (!(SaveGamer)) {
         Gamer += -1
@@ -8,15 +11,17 @@ input.onButtonEvent(Button.A, input.buttonEventClick(), function () {
     }
 })
 input.onButtonEvent(Button.AB, input.buttonEventClick(), function () {
-    SaveGamer = true
-    basic.showNumber(Lifes)
-    basic.showLeds(`
-        # # # # #
-        # # # # #
-        # # # # #
-        # # # # #
-        # # # # #
-        `)
+    if (!(SaveGamer)) {
+        SaveGamer = true
+        basic.showNumber(Lifes)
+        basic.showLeds(`
+            # # # # #
+            # # # # #
+            # # # # #
+            # # # # #
+            # # # # #
+            `)
+    }
 })
 input.onButtonEvent(Button.B, input.buttonEventClick(), function () {
     if (!(SaveGamer)) {
@@ -31,7 +36,11 @@ input.onGesture(Gesture.Shake, function () {
     if (Play) {
         radio.sendNumber(Gamer)
         Lifes += -1
-        basic.showString("" + (Lifes))
+        if (Lifes > 0) {
+            basic.showString("" + (Lifes))
+        } else {
+            basic.showIcon(IconNames.Skull)
+        }
     }
 })
 radio.onReceivedString(function (receivedString) {
