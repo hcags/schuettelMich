@@ -1,6 +1,3 @@
-input.onPinTouchEvent(TouchPin.P1, input.buttonEventDown(), function () {
-    radio.sendString("gameStart")
-})
 input.onButtonEvent(Button.A, input.buttonEventClick(), function () {
     if (!(SaveGamer)) {
         Gamer += -1
