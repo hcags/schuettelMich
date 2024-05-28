@@ -11,13 +11,8 @@ input.onButtonEvent(Button.AB, input.buttonEventClick(), function () {
     if (!(SaveGamer)) {
         SaveGamer = true
         basic.showNumber(Lifes)
-        basic.showLeds(`
-            # # # # #
-            # # # # #
-            # # # # #
-            # # # # #
-            # # # # #
-            `)
+        basic.pause(500)
+        basic.showNumber(Gamer)
     }
 })
 input.onButtonEvent(Button.B, input.buttonEventClick(), function () {
@@ -27,17 +22,6 @@ input.onButtonEvent(Button.B, input.buttonEventClick(), function () {
             Gamer = 1
         }
         basic.showNumber(Gamer)
-    }
-})
-input.onGesture(Gesture.Shake, function () {
-    if (Play) {
-        radio.sendNumber(Gamer)
-        Lifes += -1
-        if (Lifes > 0) {
-            basic.showString("" + (Lifes))
-        } else {
-            basic.showIcon(IconNames.Skull)
-        }
     }
 })
 radio.onReceivedString(function (receivedString) {
@@ -81,13 +65,75 @@ radio.onReceivedString(function (receivedString) {
         basic.showNumber(Lifes)
     }
 })
-let Lifes = 0
-let Gamer = 0
+radio.onReceivedNumber(function (receivedNumber) {
+    Play = true
+    difficult = receivedNumber
+    basic.showLeds(`
+            . . # . .
+            . . # . .
+            . . # . .
+            . . . . .
+            . . # . .
+            `)
+    basic.pause(1000)
+    basic.showLeds(`
+            # # # # #
+            # # # # #
+            # # # # #
+            # # # # #
+            # # # # #
+            `)
+})
+
+let difficult = 1
+let Lifes = 5
+let Gamer = 1
 let Play = false
 let SaveGamer = false
 radio.setGroup(1)
 SaveGamer = false
 Play = false
-Gamer = 1
 basic.showNumber(Gamer)
-Lifes = 5
+
+input.onGesture(Gesture.Shake, function () {
+    if (difficult >= 1) {
+        shaked()
+    }
+})
+
+
+input.onGesture(Gesture.LogoDown, function () {
+    if (difficult >= 2) {
+        shaked()
+    }
+})
+
+input.onGesture(Gesture.ScreenUp, function () {
+    if (difficult >= 2) {
+        shaked()
+    }
+})
+
+input.onGesture(Gesture.ScreenDown, function () {
+    if (difficult >= 2) {
+        shaked()
+    }
+})
+
+input.onGesture(Gesture.ThreeG, function () {
+    if (difficult > 2) {
+        shaked()
+    }
+})
+
+function shaked() {
+    if (Play) {
+        radio.sendNumber(Gamer)
+        Lifes += -1
+        if (Lifes > 0) {
+            basic.showString("" + (Lifes))
+        } else {
+            basic.showIcon(IconNames.Skull)
+        }
+    }
+}
